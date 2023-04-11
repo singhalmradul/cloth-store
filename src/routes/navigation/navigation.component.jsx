@@ -19,7 +19,7 @@ const NavigationBar = () => (
 				</Link>
 				<Link
 					className='nav-link'
-					to='/sign-in'
+					to='/auth'
 				>
 					sign in
 				</Link>

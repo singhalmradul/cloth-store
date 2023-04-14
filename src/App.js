@@ -2,7 +2,9 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './routes/home/home.component';
 import NavigationBar from './routes/navigation/navigation.component';
 import Authentication from './routes/authentication/authentication.component';
-const Temp = () => <div>Temp</div>;
+import Shop from './routes/shop/shop.component';
+
+// const Temp = () => <div>Temp</div>;
 const App = () => (
 	<Routes>
 		<Route
@@ -15,7 +17,7 @@ const App = () => (
 			/>
 			<Route
 				path='shop'
-				element={<Temp />}
+				element={<Shop />}
 			/>
 			<Route
 				path='auth'

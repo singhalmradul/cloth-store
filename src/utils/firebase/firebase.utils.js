@@ -6,8 +6,11 @@ import {
 	GoogleAuthProvider,
 	signInWithPopup,
 	signInWithEmailAndPassword,
+	signOut,
+	onAuthStateChanged,
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+
 const firebaseConfig = {
 	apiKey: 'AIzaSyBY8TnWF15V4wxzuQpe4F9jCmdlP6b4Quo',
 	authDomain: 'singhalmradul-cloth-shop.firebaseapp.com',
@@ -21,10 +24,13 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
+
 export const auth = getAuth();
+
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
 const db = getFirestore();
+
 export const createUserDocumentWithAuth = async (
 	userAuth,
 	additionalDetails = {}
@@ -48,9 +54,17 @@ export const createUserDocumentWithAuth = async (
 		return userDocRef;
 	}
 };
+
 export const signUpUserUsingEmailAndPassword = async (email, password) => {
 	if (!email || !password) return;
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
+
 export const signInAuthWithEmailAndPassword = async (email, password) =>
 	await signInWithEmailAndPassword(auth, email, password);
+
+export const signOutUser = async () => signOut(auth);
+
+export const onAuthStateChangedListener = callback => {
+	if (callback) return onAuthStateChanged(auth, callback);
+};

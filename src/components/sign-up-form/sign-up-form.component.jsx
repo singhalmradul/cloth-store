@@ -6,6 +6,7 @@ import {
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
 import './sign-up-form.styles.scss';
+
 const defaultDetails = {
 	displayName: '',
 	email: '',
@@ -15,11 +16,16 @@ const defaultDetails = {
 const SignUpForm = () => {
 	const [details, setDetails] = useState(defaultDetails);
 	const { displayName, email, password, confirmPassword } = details;
-	const onChange = (event) => {
+	const onChange = event => {
 		const { name, value } = event.target;
 		setDetails({ ...details, [name]: value });
 	};
-	const onSubmit = async (event) => {
+	const createUserDocWithAuth = async signedUpUser => {
+		await createUserDocumentWithAuth(signedUpUser, {
+			displayName,
+		});
+	};
+	const onSubmit = async event => {
 		event.preventDefault();
 		if (password !== confirmPassword) {
 			alert('password not match');
@@ -27,10 +33,8 @@ const SignUpForm = () => {
 		}
 		try {
 			const { user } = await signUpUserUsingEmailAndPassword(email, password);
-			const userDocRef = await createUserDocumentWithAuth(user, {
-				displayName,
-			});
-			console.log(userDocRef);
+			await createUserDocWithAuth(user);
+			console.log(user);
 		} catch (error) {
 			if (error.code === 'auth/email-already-in-use')
 				alert('unable to sign up: email already in use');
@@ -79,4 +83,5 @@ const SignUpForm = () => {
 		</div>
 	);
 };
+
 export default SignUpForm;

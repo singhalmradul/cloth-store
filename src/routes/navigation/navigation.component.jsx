@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './navigation.styles.scss';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
@@ -17,7 +17,7 @@ const NavigationBar = () => {
 		setCartOpen(!isCartOpen);
 	};
 	return (
-		<Fragment>
+		<>
 			<div className='navigation'>
 				<Link to='/'>
 					<div className='logo-container'>
@@ -51,7 +51,7 @@ const NavigationBar = () => {
 				{isCartOpen && <CartDropdown />}
 			</div>
 			<Outlet />
-		</Fragment>
+		</>
 	);
 };
 

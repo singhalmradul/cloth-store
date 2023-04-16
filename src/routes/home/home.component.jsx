@@ -1,36 +1,18 @@
-import CategroyList from '../../components/directory/directory.component';
+import { useContext } from 'react';
+import { CategoriesContext } from '../../contexts/categories.context';
+import DirectoryItem from '../../components/directory-item/directory-item.component';
+import { DirectoryContainer } from './home.styles';
 const Home = () => {
-	const categories = [
-		{
-			id: 1,
-			title: 'hats',
-			imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
-		},
-		{
-			id: 2,
-			title: 'jackets',
-			imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
-		},
-		{
-			id: 3,
-			title: 'sneakers',
-			imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
-		},
-		{
-			id: 4,
-			title: 'women',
-			imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
-		},
-		{
-			id: 5,
-			title: 'men',
-			imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
-		},
-	];
+	const { categories } = useContext(CategoriesContext);
 	return (
-		<div className='App'>
-			<CategroyList categories={categories} />
-		</div>
+		<DirectoryContainer>
+			{categories.map(category => (
+				<DirectoryItem
+					category={category}
+					key={category.id}
+				/>
+			))}
+		</DirectoryContainer>
 	);
 };
 export default Home;

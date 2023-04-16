@@ -63,6 +63,17 @@ export const getCategoryAndDocuments = async () => {
 	}, {});
 	return categoryMap;
 };
+export const getCategoryDirectories = async () => {
+	const collectionRef = collection(db, 'categories');
+	const q = query(collectionRef);
+	const querySnapshot = await getDocs(q);
+	const categories = querySnapshot.docs.reduce((acc, docSnapshot) => {
+		const { id, title, imageUrl } = docSnapshot.data();
+		acc[id - 1] = { id, title, imageUrl, route: `shop/${title}` };
+		return acc;
+	}, []);
+	return categories;
+};
 export const createUserDocumentWithAuth = async (
 	userAuth,
 	additionalDetails = {}

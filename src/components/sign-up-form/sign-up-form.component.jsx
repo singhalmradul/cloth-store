@@ -5,7 +5,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
-import './sign-up-form.styles.scss';
+import { SignUpFormContainer } from './sign-up-form.styles';
 
 const defaultDetails = {
 	displayName: '',
@@ -43,7 +43,7 @@ const SignUpForm = () => {
 		setDetails(defaultDetails);
 	};
 	return (
-		<div className='sign-up-form-container'>
+		<SignUpFormContainer>
 			<h2>new here? wanna sign up</h2>
 			<form onSubmit={onSubmit}>
 				<FormInput
@@ -80,7 +80,7 @@ const SignUpForm = () => {
 				/>
 				<Button type='submit'>sign up</Button>
 			</form>
-		</div>
+		</SignUpFormContainer>
 	);
 };
 

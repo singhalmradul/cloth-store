@@ -13,7 +13,7 @@ import {
 	NavigationContainer,
 } from './navigation.styles';
 const NavigationBar = () => {
-	const { currUser } = useContext(UserContext);
+	const { currentUser } = useContext(UserContext);
 	const signOut = async () => {
 		await signOutUser();
 	};
@@ -29,7 +29,7 @@ const NavigationBar = () => {
 				</LogoContainer>
 				<NavLinks>
 					<NavLink to='/shop'>shop</NavLink>
-					{currUser ? (
+					{currentUser ? (
 						<NavLink
 							as='span'
 							onClick={signOut}

@@ -1,12 +1,13 @@
-import { useContext } from 'react';
-import { CategoriesContext } from '../../contexts/categories.context';
 import DirectoryItem from '../../components/directory-item/directory-item.component';
 import { DirectoryContainer } from './home.styles';
+import { selectCategory } from '../../store/categories/cateogories.selector';
+import { useSelector } from 'react-redux';
+
 const Home = () => {
-	const { categories } = useContext(CategoriesContext);
+	const categories = useSelector(selectCategory);
 	return (
 		<DirectoryContainer>
-			{categories.map(category => (
+			{categories.map((category) => (
 				<DirectoryItem
 					category={category}
 					key={category.id}

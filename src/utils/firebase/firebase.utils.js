@@ -38,6 +38,7 @@ export const auth = getAuth();
 
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
+
 const db = getFirestore();
 
 export const addCollectionAndDocuments = async (
@@ -46,34 +47,20 @@ export const addCollectionAndDocuments = async (
 ) => {
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
-	objectsToAdd.forEach(object => {
+	objectsToAdd.forEach((object) => {
 		const docRef = doc(collectionRef, object.title.toLowerCase());
 		batch.set(docRef, object);
 	});
 	await batch.commit();
 };
+
 export const getCategoryAndDocuments = async () => {
 	const collectionRef = collection(db, 'categories');
 	const q = query(collectionRef);
 	const querySnapshot = await getDocs(q);
-	const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		const { title, items } = docSnapshot.data();
-		acc[title.toLowerCase()] = items;
-		return acc;
-	}, {});
-	return categoryMap;
+	return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
-export const getCategoryDirectories = async () => {
-	const collectionRef = collection(db, 'categories');
-	const q = query(collectionRef);
-	const querySnapshot = await getDocs(q);
-	const categories = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		const { id, title, imageUrl } = docSnapshot.data();
-		acc[id - 1] = { id, title, imageUrl, route: `shop/${title}` };
-		return acc;
-	}, []);
-	return categories;
-};
+
 export const createUserDocumentWithAuth = async (
 	userAuth,
 	additionalDetails = {}
@@ -108,6 +95,6 @@ export const signInAuthWithEmailAndPassword = async (email, password) =>
 
 export const signOutUser = async () => signOut(auth);
 
-export const onAuthStateChangedListener = callback => {
+export const onAuthStateChangedListener = (callback) => {
 	if (callback) return onAuthStateChanged(auth, callback);
 };

@@ -1,19 +1,33 @@
-import { useContext } from 'react';
-import { CartContext } from '../../contexts/cart.context';
-import { ChangeQuantity, CheckoutItemContainer, Image, Name, Price, Quantity, Total, Value } from './checkout-item.styles';
+import {
+	ChangeQuantity,
+	CheckoutItemContainer,
+	Image,
+	Name,
+	Price,
+	Quantity,
+	Total,
+	Value,
+} from './checkout-item.styles';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	addItemToCart,
+	// clearItemFromCart,
+	removeItemFromCart,
+} from '../../store/cart/cart.action';
+import { selectCartItems } from '../../store/cart/cart.selector';
 const CheckoutItem = ({ item }) => {
 	const { name, quantity, price, imageUrl } = item;
-	const { addItemToCart, removeItemFromCart, clearItemFromCart } =
-		useContext(CartContext);
+	const dispatch = useDispatch();
+	const cartItems = useSelector(selectCartItems);
 	if (!item) return;
 	const increase = () => {
-		addItemToCart(item);
+		dispatch(addItemToCart(cartItems, item));
 	};
 	const decrease = () => {
-		removeItemFromCart(item);
+		dispatch(removeItemFromCart(cartItems, item));
 	};
 	// const remove = () => {
-	// 	clearItemFromCart(item);
+	// 	dispatch(clearItemFromCart(cartItems, item));
 	// };
 	return (
 		<CheckoutItemContainer>
@@ -25,15 +39,9 @@ const CheckoutItem = ({ item }) => {
 			</Image>
 			<Name>{name}</Name>
 			<Quantity>
-				<ChangeQuantity	onClick={decrease}>
-					-
-				</ChangeQuantity>
+				<ChangeQuantity onClick={decrease}>-</ChangeQuantity>
 				<Value>{quantity}</Value>
-				<ChangeQuantity
-					onClick={increase}
-				>
-					+
-				</ChangeQuantity>
+				<ChangeQuantity onClick={increase}>+</ChangeQuantity>
 			</Quantity>
 			<Price>{price}</Price>
 			<Total>{price * quantity}</Total>

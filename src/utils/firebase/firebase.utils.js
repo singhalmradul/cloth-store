@@ -1,5 +1,4 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
@@ -29,8 +28,7 @@ const firebaseConfig = {
 	appId: '1:943362562454:web:5fb867ff04bf79b1d3a5b7',
 	measurementId: 'G-NYG44B8QNY',
 };
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 

@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import {
-	createUserDocumentWithAuth,
-	signUpUserUsingEmailAndPassword,
-} from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
 import { SignUpFormContainer } from './sign-up-form.styles';
+import { signUpStart } from '../../store/user/user.action';
+import { useDispatch } from 'react-redux';
 
 const defaultDetails = {
 	displayName: '',
@@ -20,11 +18,7 @@ const SignUpForm = () => {
 		const { name, value } = event.target;
 		setDetails({ ...details, [name]: value });
 	};
-	const createUserDocWithAuth = async signedUpUser => {
-		await createUserDocumentWithAuth(signedUpUser, {
-			displayName,
-		});
-	};
+	const dispatch = useDispatch();
 	const onSubmit = async event => {
 		event.preventDefault();
 		if (password !== confirmPassword) {
@@ -32,12 +26,18 @@ const SignUpForm = () => {
 			return;
 		}
 		try {
-			const { user } = await signUpUserUsingEmailAndPassword(email, password);
-			await createUserDocWithAuth(user);
+			dispatch(signUpStart(email, password, displayName));
 		} catch (error) {
-			if (error.code === 'auth/email-already-in-use')
-				alert('unable to sign up: email already in use');
-			else console.log('error', error);
+			switch (error.code) {
+				case 'auth/email-already-in-use':
+					alert('unable to sign up: email already in use');
+					break;
+				case 'auth/weak-password':
+					alert('password should be atleast 6 characters');
+					break;
+				default:
+					console.log('error', error);
+			}
 		}
 		setDetails(defaultDetails);
 	};

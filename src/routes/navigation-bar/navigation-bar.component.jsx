@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
-import { signOutUser } from '../../utils/firebase/firebase.utils';
 import CartIcon from '../../components/cart-icon/cart-icon.component';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 import {
@@ -13,12 +12,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userSelector } from '../../store/user/user.selector';
 import { isCartOpenSelector } from '../../store/cart/cart.selector';
 import { setCartOpen } from '../../store/cart/cart.action';
+import { signOutStart } from '../../store/user/user.action';
 const NavigationBar = () => {
 	const currentUser = useSelector(userSelector);
-	const signOut = async () => {
-		await signOutUser();
-	};
 	const dispatch = useDispatch();
+	const signOut = () => {
+		dispatch(signOutStart());
+	};
 	const isCartOpen = useSelector(isCartOpenSelector);
 	const toggleDropdown = () => {
 		dispatch(setCartOpen(!isCartOpen));

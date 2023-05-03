@@ -1,30 +1,33 @@
 import { useState } from 'react';
-import {
-	signInAuthWithEmailAndPassword,
-	signInWithGooglePopup,
-} from '../../utils/firebase/firebase.utils';
+import { signInWithGooglePopup } from '../../utils/firebase/firebase.utils';
 import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import { SignInButtons, SignInFormContainer } from './sign-in-form.styles';
+import { useDispatch } from 'react-redux';
+import {
+	emailSignInStart,
+	googleSignInStart,
+} from '../../store/user/user.action';
 
 const defaultDetails = {
 	email: '',
 	password: '',
 };
 
-const SignUpForm = () => {
+const SignInForm = () => {
 	const [details, setDetails] = useState(defaultDetails);
 	const { email, password } = details;
+	const dispatch = useDispatch();
 
 	const onChange = event => {
 		const { name, value } = event.target;
 		setDetails({ ...details, [name]: value });
 	};
 
-	const onSubmit = async event => {
+	const onSubmit = event => {
 		event.preventDefault();
 		try {
-			await signInAuthWithEmailAndPassword(email, password);
+			dispatch(emailSignInStart(email, password));
 		} catch (error) {
 			switch (error.code) {
 				case 'auth/wrong-password':
@@ -40,9 +43,9 @@ const SignUpForm = () => {
 		setDetails(defaultDetails);
 	};
 
-	const googleSignIn = async () => {
+	const googleSignIn = () => {
 		try {
-			await signInWithGooglePopup();
+			dispatch(googleSignInStart());
 		} catch (error) {
 			if ((error.code = 'auth/popup-closed-by-user'))
 				alert('popup closed by user');
@@ -85,4 +88,4 @@ const SignUpForm = () => {
 	);
 };
 
-export default SignUpForm;
+export default SignInForm;

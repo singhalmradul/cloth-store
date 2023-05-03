@@ -5,14 +5,9 @@ import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 import { useEffect } from 'react';
-import {
-	createUserDocumentWithAuth,
-	onAuthStateChangedListener,
-	// addCollectionAndDocuments,
-} from './utils/firebase/firebase.utils';
-import { setCurrentUser } from './store/user/user.action';
+import { checkUserSession } from './store/user/user.action';
 import { useDispatch } from 'react-redux';
-import { fetchCategoriesAsync } from './store/categories/categories.action';
+import { fetchCategoriesStart } from './store/categories/categories.action';
 // import SHOP_DATA from './shop-data.js';
 
 const App = () => {
@@ -20,15 +15,18 @@ const App = () => {
 	// useEffect(() => {
 	// 	addCollectionAndDocuments('categories', SHOP_DATA);
 	// }, []);
+	// useEffect(() => {
+	// 	const unsuscribe = onAuthStateChangedListener(user => {
+	// 		if (user) createUserDocumentWithAuth(user);
+	// 		dispatch(setCurrentUser(user));
+	// 	});
+	// 	return unsuscribe;
+	// }, []);
 	useEffect(() => {
-		const unsuscribe = onAuthStateChangedListener((user) => {
-			if (user) createUserDocumentWithAuth(user);
-			dispatch(setCurrentUser(user));
-		});
-		return unsuscribe;
+		dispatch(checkUserSession());
 	}, []);
 	useEffect(() => {
-			dispatch(fetchCategoriesAsync());
+		dispatch(fetchCategoriesStart());
 	}, []);
 
 	return (

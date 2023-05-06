@@ -9,12 +9,12 @@ import {
 	NavigationContainer,
 } from './navigation-bar.styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSelector } from '../../store/user/user.selector';
+import { selectCurrentUser } from '../../store/user/user.selector';
 import { isCartOpenSelector } from '../../store/cart/cart.selector';
 import { setCartOpen } from '../../store/cart/cart.action';
 import { signOutStart } from '../../store/user/user.action';
 const NavigationBar = () => {
-	const currentUser = useSelector(userSelector);
+	const currentUser = useSelector(selectCurrentUser);
 	const dispatch = useDispatch();
 	const signOut = () => {
 		dispatch(signOutStart());

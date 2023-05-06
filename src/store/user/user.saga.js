@@ -19,7 +19,7 @@ import {
 
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
-export function* getSnapshotFromUserAuth(userAuth, ...additionalDetails) {
+export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
 	try {
 		const userSnapshot = yield call(
 			createUserDocumentWithAuth,

@@ -1,6 +1,6 @@
 import { USER_ACTION_TYPES } from './user.types';
 import {
-	SignUpFailure,
+	signUpFailure,
 	signOutSuccess,
 	signInFailure,
 	signInSuccess,
@@ -83,7 +83,7 @@ export function* signUpUser({ payload: { email, password, displayName } }) {
 		);
 		yield put(signUpSuccess(user, { displayName }));
 	} catch (error) {
-		yield put(SignUpFailure(error));
+		yield put(signUpFailure(error));
 	}
 }
 

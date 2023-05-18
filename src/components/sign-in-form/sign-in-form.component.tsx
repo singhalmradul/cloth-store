@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { signInWithGooglePopup } from '../../utils/firebase/firebase.utils';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import { SignInButtons, SignInFormContainer } from './sign-in-form.styles';
@@ -8,6 +7,7 @@ import {
 	emailSignInStart,
 	googleSignInStart,
 } from '../../store/user/user.action';
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 
 const defaultDetails = {
 	email: '',
@@ -19,21 +19,21 @@ const SignInForm = () => {
 	const { email, password } = details;
 	const dispatch = useDispatch();
 
-	const onChange = event => {
+	const onChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setDetails({ ...details, [name]: value });
 	};
 
-	const onSubmit = event => {
+	const onSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		try {
 			dispatch(emailSignInStart(email, password));
 		} catch (error) {
-			switch (error.code) {
-				case 'auth/wrong-password':
+			switch ((error as AuthError).code) {
+				case AuthErrorCodes.INVALID_PASSWORD:
 					alert('wrong password');
 					break;
-				case 'auth/user-not-found':
+				case AuthErrorCodes.INVALID_EMAIL:
 					alert('email not registered, please sign up');
 					break;
 				default:
@@ -47,7 +47,7 @@ const SignInForm = () => {
 		try {
 			dispatch(googleSignInStart());
 		} catch (error) {
-			if ((error.code = 'auth/popup-closed-by-user'))
+			if ((error as AuthError).code === AuthErrorCodes.POPUP_CLOSED_BY_USER)
 				alert('popup closed by user');
 			else console.log('error!!', error);
 		}

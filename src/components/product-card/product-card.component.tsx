@@ -8,7 +8,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCart } from '../../store/cart/cart.action';
 import { selectCartItems } from '../../store/cart/cart.selector';
-const ProductCard = ({ product }) => {
+import { CategoryItem } from '../../store/categories/categories.types';
+
+type ProductCardProps = { product: CategoryItem };
+const ProductCard = ({ product }: ProductCardProps) => {
 	const { name, price, imageUrl } = product;
 	const dispatch = useDispatch();
 	const cartItems = useSelector(selectCartItems);
@@ -17,15 +20,11 @@ const ProductCard = ({ product }) => {
 	};
 	return (
 		<ProductCardContainer>
-			<img
-				src={imageUrl}
-				alt={`${name}`}
-			/>
+			<img src={imageUrl} alt={`${name}`} />
 			<Button
 				buttonType={BUTTON_TYPE_CLASSES.inverted}
 				onClick={addProductToCart}
-				item={product}
-			>
+				>
 				add to cart
 			</Button>
 			<Footer>

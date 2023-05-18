@@ -1,4 +1,6 @@
-const SHOP_DATA = [
+import { Category } from './store/categories/categories.types';
+
+const SHOP_DATA: Category[] = [
 	{
 		id: 1,
 		title: 'hats',

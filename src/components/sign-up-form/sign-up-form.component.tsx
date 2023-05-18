@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import Button from '../button/button.component';
 import { SignUpFormContainer } from './sign-up-form.styles';
 import { signUpStart } from '../../store/user/user.action';
 import { useDispatch } from 'react-redux';
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 
 const defaultDetails = {
 	displayName: '',
@@ -14,12 +15,12 @@ const defaultDetails = {
 const SignUpForm = () => {
 	const [details, setDetails] = useState(defaultDetails);
 	const { displayName, email, password, confirmPassword } = details;
-	const onChange = event => {
+	const onChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setDetails({ ...details, [name]: value });
 	};
 	const dispatch = useDispatch();
-	const onSubmit = async event => {
+	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (password !== confirmPassword) {
 			alert('password not match');
@@ -28,11 +29,11 @@ const SignUpForm = () => {
 		try {
 			dispatch(signUpStart(email, password, displayName));
 		} catch (error) {
-			switch (error.code) {
-				case 'auth/email-already-in-use':
+			switch ((error as AuthError).code) {
+				case AuthErrorCodes.EMAIL_EXISTS:
 					alert('unable to sign up: email already in use');
 					break;
-				case 'auth/weak-password':
+				case AuthErrorCodes.WEAK_PASSWORD:
 					alert('password should be atleast 6 characters');
 					break;
 				default:

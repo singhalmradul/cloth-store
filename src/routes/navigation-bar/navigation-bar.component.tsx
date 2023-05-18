@@ -10,8 +10,7 @@ import {
 } from './navigation-bar.styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../store/user/user.selector';
-import { isCartOpenSelector } from '../../store/cart/cart.selector';
-import { setCartOpen } from '../../store/cart/cart.action';
+import { selectIsCartOpen } from '../../store/cart/cart.selector';
 import { signOutStart } from '../../store/user/user.action';
 const NavigationBar = () => {
 	const currentUser = useSelector(selectCurrentUser);
@@ -19,10 +18,7 @@ const NavigationBar = () => {
 	const signOut = () => {
 		dispatch(signOutStart());
 	};
-	const isCartOpen = useSelector(isCartOpenSelector);
-	const toggleDropdown = () => {
-		dispatch(setCartOpen(!isCartOpen));
-	};
+	const isCartOpen = useSelector(selectIsCartOpen);
 	return (
 		<>
 			<NavigationContainer>
@@ -32,16 +28,13 @@ const NavigationBar = () => {
 				<NavLinks>
 					<NavLink to='/shop'>shop</NavLink>
 					{currentUser ? (
-						<NavLink
-							as='span'
-							onClick={signOut}
-						>
+						<NavLink as='span' onClick={signOut}>
 							sign out
 						</NavLink>
 					) : (
 						<NavLink to='/auth'>sign in</NavLink>
 					)}
-					<CartIcon onClick={toggleDropdown} />
+					<CartIcon/>
 				</NavLinks>
 				{isCartOpen && <CartDropdown />}
 			</NavigationContainer>

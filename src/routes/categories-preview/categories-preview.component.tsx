@@ -1,17 +1,17 @@
 import ProductCard from '../../components/product-card/product-card.component';
 import { Link } from 'react-router-dom';
-import './categories-preview.styles.jsx';
 import {
 	CategoryPreview,
 	Preview,
 	Title,
-} from './categories-preview.styles.jsx';
+} from './categories-preview.styles';
 import { useSelector } from 'react-redux';
 import {
 	selectCategoryMap,
 	selectIsCategoriesLoading,
-} from '../../store/categories/cateogories.selector';
+} from '../../store/categories/categories.selector';
 import Spinner from '../../components/spinner/spinner.component';
+
 const CategoriesPreview = () => {
 	const categoryMap = useSelector(selectCategoryMap);
 	const isLoading = useSelector(selectIsCategoriesLoading);
@@ -43,4 +43,5 @@ const CategoriesPreview = () => {
 		</>
 	);
 };
+
 export default CategoriesPreview;

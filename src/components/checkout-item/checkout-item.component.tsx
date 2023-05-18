@@ -15,11 +15,12 @@ import {
 	removeItemFromCart,
 } from '../../store/cart/cart.action';
 import { selectCartItems } from '../../store/cart/cart.selector';
-const CheckoutItem = ({ item }) => {
+import { CartItem } from '../../store/cart/cart.types';
+type CheckoutItemProps = { item: CartItem };
+const CheckoutItem = ({ item }: CheckoutItemProps) => {
 	const { name, quantity, price, imageUrl } = item;
 	const dispatch = useDispatch();
 	const cartItems = useSelector(selectCartItems);
-	if (!item) return;
 	const increase = () => {
 		dispatch(addItemToCart(cartItems, item));
 	};
@@ -32,10 +33,7 @@ const CheckoutItem = ({ item }) => {
 	return (
 		<CheckoutItemContainer>
 			<Image>
-				<img
-					src={imageUrl}
-					alt={`${name}`}
-				/>
+				<img src={imageUrl} alt={`${name}`} />
 			</Image>
 			<Name>{name}</Name>
 			<Quantity>

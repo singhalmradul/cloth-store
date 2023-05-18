@@ -1,7 +1,7 @@
 import Button from '../button/button.component';
-import CartItem from '../cart-item/cart-item.component';
+import ShoppingCartItem from '../shopping-cart-item/shopping-cart-item.component';
 import { useNavigate } from 'react-router-dom';
-import './cart-dropdown.styles.jsx';
+import './cart-dropdown.styles';
 import {
 	CartDropdownContainer,
 	CartItems,
@@ -24,10 +24,7 @@ const CartDropdown = () => {
 			{cartItems.length ? (
 				<CartItems>
 					{cartItems.map((product) => (
-						<CartItem
-							key={product.id}
-							product={product}
-						/>
+						<ShoppingCartItem key={product.id} product={product} />
 					))}
 				</CartItems>
 			) : (

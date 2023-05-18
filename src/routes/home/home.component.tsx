@@ -3,7 +3,7 @@ import { DirectoryContainer } from './home.styles';
 import {
 	selectCategory,
 	selectIsCategoriesLoading,
-} from '../../store/categories/cateogories.selector';
+} from '../../store/categories/categories.selector';
 import { useSelector } from 'react-redux';
 import Spinner from '../../components/spinner/spinner.component';
 
